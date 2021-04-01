@@ -1,5 +1,16 @@
+import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
+
+dataFrame = pd.read_excel(
+    "soil-vapor_complete-data-set_11_25_20_modified.xlsx",
+    engine = 'openpyxl')
+
+# printing the spreadsheet to confirm import
+# print("dataFrame:")
+# print(dataFrame)
+
+
 
 # Create figure
 fig = go.Figure()
