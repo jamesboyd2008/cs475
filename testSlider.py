@@ -10,26 +10,6 @@ dataFrame = pandas.read_excel(
     engine = 'openpyxl',
     index_col = "Date")
 
-# printing the spreadsheet to confirm import
-# print("dataFrame:")
-# print(dataFrame)
-
-# print the names of the columns
-# print("columns:\n", dataFrame.columns)
-# print column type (it's <class 'pandas.core.indexes.base.Index'>)
-# print("columns type:\n", type(dataFrame.columns))
-# print("second col:\n", dataFrame.columns[1])
-
-# getting rid of NaN... didn't work
-# dataFrame.interpolate(method = "linear")
-
-# must replace NaNs in index before using this
-# dataFrame.interpolate(method = "cubicspline")
-
-# dataFrame.replace(0) # fail
-
-# dataFrame.fillna(0)
-
 # first row of column
 colName = dataFrame.columns[1]
 
@@ -42,37 +22,25 @@ specialColumn.fillna(0)
 dateCol = dataFrame[dataFrame.columns[0]]
 dateCol.fillna(method = 'backfill')
 
-# print("specialColumn:\n", specialColumn)
 print("dateCol:\n", dateCol)
 
-# values = specialColumn.values.fillna(0) # fail
-# values = specialColumn.values
-# cleanValues = values[np.logical_not(np.isnan(values))]
-
-# print(cleanValues)
-
-# print("specialColumn values:\n", specialColumn.values)
 vapes = specialColumn.values.tolist()
 dates = dateCol.values.tolist()
 
 # Clean up the vapes.
 for i in range(len(vapes)):
-    # print(vapes[i], type(vapes[i]), str(vapes[i]) == 'nan')
     if str(vapes[i]) == 'nan':
         vapes[i] = 0
 
 # Clean up the dates.
 now = datetime.datetime.now()
 
+# TODO: DRY up the loops
+
 # Drop empty rows.
-# for i in range(len(dates)):
 i = 0
 length = len(dates)
 while(i < length):
-    # print(i, dates[i], vapes[i])
-    # if ((dates[i] == 0 and vapes[i] == 0) or \
-    #    (type(dates[i]) != type(now)) or \
-    #    vapes[i] == 0):
     if (dates[i] == 0 or vapes[i] == 0 or \
        (type(dates[i]) != type(now))):
         # remove the row
@@ -121,22 +89,6 @@ while(i < length):
         vapes.pop(i)
         length -= 1
     i += 1
-
-
-
-# vapes.pop(0) # pop the NC value
-# dates.pop(0) # even out for getting the same quantity of dates
-
-# for i in range(len(dates)):
-#     print(i, dates[i], vapes[i])
-#     if vapes[i] == 0:
-#         print('zero vape date:', i)
-
-
-# print("list version:\n", vapes)
-# print("len(vapes):\n", len(vapes))
-# print("len(dates):\n", len(dates))
-# print("dates:", dates)
 
 
 
