@@ -8,7 +8,6 @@ import plotly.express as plotXpress
 dataFrame = pandas.read_excel(
     "soil-vapor_complete-data-set_11_25_20_modified.xlsx",
     engine = 'openpyxl',
-    # index_col = "DATE")
     index_col = None)
 
 """
@@ -67,17 +66,45 @@ for index, row in triplet.iterrows():
         # drop the row
         triplet = triplet.drop([index])
 
+# Build month column.
+month = []
+for index, row in triplet.iterrows():
+    month.append(row['DATE'].strftime("%B"))
+
+triplet['Month'] = month
+
+# Build year column.
+year = []
+for index, row in triplet.iterrows():
+    year.append(row['DATE'].year)
+
+triplet['Year'] = year
+
+print(triplet)
+
 fig = plotXpress.line(
-                        triplet,
-                        x = 'DATE',
+                        data_frame = triplet,
+                        x = 'Month',
+                        # x = 'DATE',
                         y = [col1, col2, col3],
-                        # pickup here: add column of just the month
-                        # then, use month col as animation_frame
-                        # animation_frame = 'DATE'
+                        animation_frame = 'Year',
+                        title = "Soil Vapor Concentrations",
+                        # text = "Here Be Text"
                      )
 
 fig["layout"].pop("updatemenus")
 fig.show()
+
+# pickup here: change y axis label to hydrocarbon ppm
+# "variable" is the label for tank triplets. Try "Sampling Sites"
+# try facetting tank triplets, or tank triplet aggregates
+# update y_range to fit via autoscale by default
+# clean up labels.
+# try to make lines a little wider
+# try to make lines a little less opaque - try ~75% opacity
+# fix monthwise granularity via "reset axes" by default
+
+# Select 1-[18-20] of triplets
 
 # TODO: optional: implement additional visualization as range slider
 #                 .. and allow toggling between the two.
