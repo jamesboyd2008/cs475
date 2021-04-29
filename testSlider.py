@@ -89,11 +89,17 @@ fig = plotXpress.line(
                         y = [col1, col2, col3],
                         animation_frame = 'Year',
                         title = "Soil Vapor Concentrations",
-                        # text = "Here Be Text"
+                        labels =    {
+                                        'Month': "Month",
+                                        'value': "Hydrocarbon ppm",
+                                        'variable': "Sampling Site"
+                                    }
                      )
 
 fig["layout"].pop("updatemenus")
-fig.show()
+# fig.show()
+# Persit the page (then sftp it onto serve at Manoa)
+fig.write_html("hydrocarbon_slider.html")
 
 # pickup here: change y axis label to hydrocarbon ppm
 # "variable" is the label for tank triplets. Try "Sampling Sites"
@@ -103,6 +109,7 @@ fig.show()
 # try to make lines a little wider
 # try to make lines a little less opaque - try ~75% opacity
 # fix monthwise granularity via "reset axes" by default
+# clarify the meaning of svo2s, svo2m, svo2d
 
 # Select 1-[18-20] of triplets
 
