@@ -150,8 +150,10 @@ for index, row in triplet.iterrows():
             newMonth += 1
         break
 
+
+revFront = padFront[::-1]
 # Prepend built rows for x axis normalcy.
-for row in padFront:
+for row in revFront:
     newRow =    pandas.DataFrame(
                                     {
                                         'DATE': row[0],
