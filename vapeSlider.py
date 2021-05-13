@@ -164,7 +164,8 @@ fig_dict =  {
 
 # Configure layout for visualization.
 fig_dict['layout']['xaxis'] =   {
-                                    'range': monthsOfYear,
+                                    # 'range': monthsOfYear, # ValueError
+                                    'range': [1, 12],
                                     'title': 'Month',
                                     'type': 'category'
                                 }
@@ -256,10 +257,78 @@ sliders_dict = {
 }
 
 # Convert pandas dataframe into dict of lists for graph_object
+line1 = list(triplet[col1])
+line2 = list(triplet[col2])
+line3 = list(triplet[col3])
+lines = [line1, line2, line3]
 
+# print(type(triplet['Year'][0]))
+# print(triplet['Year'][0])
 
+# Establish first year
+# firstYear = int(triplet['Year'][0])
+firstYear = triplet['Year'][0] # <class 'numpy.int64'>
+for column in three:
+    # A dataframe of just first year data, to get started.
+    # Animation frames will be built on top of this.
+    yearPrimerDF = triplet[triplet['Year'] == firstYear]
 
+    # A dict of just the first year, per sampling site per depth.
+    data_dict = {
+        'x': list(yearPrimerDF['Month']),
+        'y': list(yearPrimerDF[column]),
+        'mode': 'lines',
+        'name': column
+    }
+    fig_dict['data'].append(data_dict)
 
+# Build animation frames
+uniqueYears = list(set(year))
+for yeary in uniqueYears:
+    frame = {
+        'data': [],
+        'name': str(yeary)
+    }
+    for column in three:
+        # Dataframe by year
+        thirdPrimerDF = triplet[triplet['Year'] == int(yeary)]
+
+        # Connecting each year to sampling sites per depths
+        # fourthPrimerDF = thirdPrimerDF[thirdPrimerDF]
+        data_dict = {
+            'x': list(thirdPrimerDF['Month']),
+            'y': list(thirdPrimerDF[column]),
+            'mode': 'lines',
+            'name': column
+        }
+        frame['data'].append(data_dict)
+
+    fig_dict['frames'].append(frame)
+    slider_step = {
+        'args': [
+            [yeary],
+            {
+                'frame': {
+                    'duration': 350,
+                    'redraw': False
+                },
+                'mode': 'immediate',
+                'transition': {
+                    'duration': 350
+                }
+            }
+        ],
+        'label': yeary,
+        'method': 'animate'
+    }
+
+    sliders_dict['steps'].append(slider_step)
+
+fig_dict['layout']['sliders'] = [sliders_dict]
+
+fig = go.Figure(fig_dict)
+
+fig.show()
 
 
 
