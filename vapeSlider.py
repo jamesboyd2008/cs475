@@ -155,6 +155,118 @@ for index, row in triplet.iterrows():
 
 print(triplet)
 
+# Build figure skeleton as per plotly graph_object specifications.
+fig_dict =  {
+                'data': [],
+                'layout': {},
+                'frames': []
+            }
+
+# Configure layout for visualization.
+fig_dict['layout']['xaxis'] =   {
+                                    'range': monthsOfYear,
+                                    'title': 'Month',
+                                    'type': 'category'
+                                }
+fig_dict['layout']['yaxis'] =   {
+                                    'title': 'Hydrocarbon ppm',
+                                    'type': 'linear' # considered log
+                                }
+fig_dict['layout']['hovermode'] = 'closest'
+fig_dict['layout']['updatemenus'] = [
+    # Enable animation and add buttons
+    {
+        'buttons': [
+            # Add play button
+            {
+                'args': [
+                    None,
+                    {
+                        'frame': {
+                            'duration': 400,
+                            'redraw': False
+                        },
+                        'fromcurrent': True,
+                        'transistion': {
+                            'duration': 350,
+                            'easing': 'quadratic-in-out'
+                        }
+                    }
+                ],
+                'label': 'Play Years',
+                'method': 'animate' # Enable slider functionality
+            },
+            # Add pause button
+            {
+                'args': [
+                    [None],
+                    {
+                        'frame': {
+                            'duration': 0,
+                            'redraw': False
+                        },
+                        'mode': 'immediate',
+                        'transition': {
+                            'duration': 0
+                        }
+                    }
+                ],
+                'label': 'Pause Years',
+                'method': 'animate'
+            }
+        ],
+        'direction': 'left',
+        'pad': {
+            'r': 15,
+            't': 80
+        },
+        'showactive': False,
+        'type': 'buttons',
+        'x': 0,
+        'xanchor': 'right',
+        'y': 0,
+        'yanchor': 'top'
+    }
+]
+
+sliders_dict = {
+    'active': 0,
+    'yanchor': 'top',
+    'xanchor': 'left',
+    'currentvalue': {
+        'font': {
+            'size': 20
+        },
+        'prefix': 'Year is ',
+        'visible': True,
+        'xanchor': 'right'
+    },
+    'transition': {
+        'duration': 350,
+        'easing': 'cubic-in-out'
+    },
+    'pad': {
+        'b': 10,
+        't': 50
+    },
+    'len': 0.9,
+    'x': 0,
+    'y': 0,
+    'steps': [] # Filled in below
+}
+
+# Convert pandas dataframe into dict of lists for graph_object
+
+
+
+
+
+
+
+
+
+
+
 
 
 
