@@ -262,11 +262,8 @@ line2 = list(triplet[col2])
 line3 = list(triplet[col3])
 lines = [line1, line2, line3]
 
-# print(type(triplet['Year'][0]))
-# print(triplet['Year'][0])
 
 # Establish first year
-# firstYear = int(triplet['Year'][0])
 firstYear = triplet['Year'][0] # <class 'numpy.int64'>
 for column in three:
     # A dataframe of just first year data, to get started.
@@ -284,6 +281,8 @@ for column in three:
 
 # Build animation frames
 uniqueYears = list(set(year))
+uniqueYears.sort() # Naturally out of order
+
 for yeary in uniqueYears:
     frame = {
         'data': [],
@@ -294,7 +293,6 @@ for yeary in uniqueYears:
         thirdPrimerDF = triplet[triplet['Year'] == int(yeary)]
 
         # Connecting each year to sampling sites per depths
-        # fourthPrimerDF = thirdPrimerDF[thirdPrimerDF]
         data_dict = {
             'x': list(thirdPrimerDF['Month']),
             'y': list(thirdPrimerDF[column]),
@@ -329,7 +327,6 @@ fig_dict['layout']['sliders'] = [sliders_dict]
 fig = go.Figure(fig_dict)
 
 fig.show()
-
 
 
 
