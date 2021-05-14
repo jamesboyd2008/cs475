@@ -123,7 +123,7 @@ for index, row in triplet.iterrows():
             newMonth += 1
         break
 
-
+# Reverse the frontwards list to be prepended FIFO.
 revFront = padFront[::-1]
 # Prepend built rows for x axis normalcy.
 for row in revFront:
@@ -140,6 +140,28 @@ for row in revFront:
                                 )
     triplet = pandas.concat([newRow, triplet]).reset_index(drop = True)
 
+# Add June, August, and December to first year for more x axis normalcy.
+# insert at indeces 6, 8, 12, respectively ... coincidence?
+indeces = [6, 8, 12]
+for i in indeces:
+    newRow = []
+    fillerDatetime = datetime.datetime(2008, i, 1, 1, 1, 1, 1)
+    newRow.append(fillerDatetime)
+    # Three sampling depths, arbitrary value is 0
+    for j in range(3):
+        newRow.append(0)
+    # Month
+    newRow.append(fillerDatetime.strftime("%B"))
+    # Year
+    newRow.append(fillerDatetime.year)
+    # insert empty month at appropriate index
+    triplet.loc[i] = newRow
+
+# # account for three new rows
+# triplet.index = triplet.index + 3
+# # sorting by index
+# triplet = triplet.sort_index()
+
 # Determine y axis range
 yMin = None
 yMax = None
@@ -153,7 +175,7 @@ for index, row in triplet.iterrows():
     if yMax is None or maxContender > yMax:
         yMax = maxContender
 
-print(triplet)
+print(triplet.to_string())
 
 # Build figure skeleton as per plotly graph_object specifications.
 fig_dict =  {
@@ -165,7 +187,7 @@ fig_dict =  {
 # Configure layout for visualization.
 fig_dict['layout']['xaxis'] =   {
                                     # 'range': monthsOfYear, # ValueError
-                                    'range': [1, 12],
+                                    'range': [0, 12],
                                     'title': 'Month',
                                     'type': 'category'
                                 }
@@ -328,10 +350,7 @@ fig = go.Figure(fig_dict)
 
 fig.show()
 
-
-
-
-
+# add y axis min max to range
 
 
 
