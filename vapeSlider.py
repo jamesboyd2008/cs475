@@ -13,10 +13,6 @@ dataFrame = pandas.read_excel(
 
 # Drop bad date column
 dataFrame.drop(dataFrame.iloc[:, 0:1], inplace = True, axis = 1)
-# print(dataFrame)
-
-# Remove whitespace from column names.
-
 
 # track which triplett is being graphed
 triCount = 0
@@ -43,9 +39,6 @@ monthsOfYear =  [
                     "November",
                     "December"
                 ]
-
-# TODO: generate ~20 line charts in below FOR statement
-# for i in range(1): # change 1 to 20?
 
 # pair columns into 3's of shallow, medium, and deep depths.
 col1 = dataFrame.columns[triCount + 1]
@@ -156,11 +149,6 @@ for i in indeces:
     newRow.append(fillerDatetime.year)
     # insert empty month at appropriate index
     triplet.loc[i] = newRow
-
-# # account for three new rows
-# triplet.index = triplet.index + 3
-# # sorting by index
-# triplet = triplet.sort_index()
 
 # Determine y axis range
 yMin = None
@@ -352,6 +340,8 @@ fig = go.Figure(fig_dict)
 
 fig.show()
 
+# Persit the page (then sftp it onto serve at Manoa)
+fig.write_html("hydrocarbon_slider.html")
 
 
 
