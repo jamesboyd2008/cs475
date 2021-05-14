@@ -175,7 +175,8 @@ for index, row in triplet.iterrows():
     if yMax is None or maxContender > yMax:
         yMax = maxContender
 
-print(triplet.to_string())
+# See the whole triplet
+# print(triplet.to_string())
 
 # Build figure skeleton as per plotly graph_object specifications.
 fig_dict =  {
@@ -238,6 +239,7 @@ fig_dict['layout']['updatemenus'] = [
                 'label': 'Pause Years',
                 'method': 'animate'
             }
+            # Todo: Add dropdown
         ],
         'direction': 'left',
         'pad': {
@@ -284,7 +286,6 @@ line1 = list(triplet[col1])
 line2 = list(triplet[col2])
 line3 = list(triplet[col3])
 lines = [line1, line2, line3]
-
 
 # Establish first year
 firstYear = triplet['Year'][0] # <class 'numpy.int64'>
@@ -351,7 +352,7 @@ fig = go.Figure(fig_dict)
 
 fig.show()
 
-# add y axis min max to range
+
 
 
 
