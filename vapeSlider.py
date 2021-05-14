@@ -180,7 +180,7 @@ print(triplet.to_string())
 # Build figure skeleton as per plotly graph_object specifications.
 fig_dict =  {
                 'data': [],
-                'layout': {},
+                'layout': { 'title': "Soil Vapor Concentrations" },
                 'frames': []
             }
 
@@ -193,7 +193,8 @@ fig_dict['layout']['xaxis'] =   {
                                 }
 fig_dict['layout']['yaxis'] =   {
                                     'title': 'Hydrocarbon ppm',
-                                    'type': 'linear' # considered log
+                                    'type': 'linear', # we considered log
+                                    'range': [yMin, yMax]
                                 }
 fig_dict['layout']['hovermode'] = 'closest'
 fig_dict['layout']['updatemenus'] = [
